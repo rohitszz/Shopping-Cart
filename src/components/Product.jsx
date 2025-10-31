@@ -4,15 +4,25 @@ import { toast } from 'react-toastify';
 import { add,remove } from '../redux/Slices/CartSlice';
 import { useDispatch } from 'react-redux';
 import "./Product.css"
+import { addToWishlist, removeFromWishlist } from '../redux/Slices/WishlistSlice'; 
 
 const Product = ({post}) => {
 
     const cart = useSelector((state) => state.cart);
+    const wishlist = useSelector((state) => state.wishlist);
     const dispatch = useDispatch();
 
     const addToCart = () =>{
         dispatch(add(post));
         toast.success("Item Added to Cart");
+    }
+    
+
+    const addToWishList = () => {
+       dispatch(addToWishlist(post));
+    }
+    const removeFromWishList = () => {
+       dispatch(removeFromWishlist(post.id))
     }
 
     const removeFromCart = () => {
@@ -33,20 +43,29 @@ const Product = ({post}) => {
         <img src={post.image} className='h-full w-full'/>
       </div>
     
-      <div className='flex justify-between gap-12'>
+      <div className='flex justify-between gap-3'>
         
       <div>
         <p className='text-green-600 font-semibold'>${post.price} </p>
       </div>
+
+      {
+        wishlist.some((p) => p.id === post.id )? 
+        (<button onClick={removeFromWishList} className='flex text-[0.55rem] items-center text-center justify-center text-gray-700 border-2 border-gray-700 rounded-full font-semibold p-1 uppercase hover:bg-gray-700 hover:text-white transition duration-300 ease-in'>Remove from WishList</button>)
+        :
+        (<button onClick={addToWishList} className='flex text-[0.55rem] items-center text-center justify-center text-gray-700 border-2 border-gray-700 rounded-full font-semibold p-1 px-3 uppercase hover:bg-gray-700 hover:text-white transition duration-300 ease-in'>Add to WishList</button>)
+
+      }
+
       {
         cart.some((p) => p.id === post.id) ? 
         (
-            <button className='text-gray-700 border-2 border-gray-700 rounded-full font-semibold text-[12px] p-1 px-3 uppercase hover:bg-gray-700 hover:text-white transition duration-300 ease-in' onClick={removeFromCart}>
+            <button className='text-[0.53rem] text-gray-700 border-2 border-gray-700 rounded-full font-bold text-[12px] p-1 px-3 uppercase hover:bg-gray-700 hover:text-white transition duration-300 ease-in' onClick={removeFromCart}>
                 Remove Item
             </button>
         ) : 
         (
-            <button className='text-gray-700 border-2 border-gray-700 rounded-full font-semibold text-[12px] p-1 px-3 uppercase hover:bg-gray-700 hover:text-white transition duration-300 ease-in' onClick={ addToCart}>
+            <button className='text-[0.53rem] text-gray-700 border-2 border-gray-700 rounded-full font-semibold text-[12px] p-1 px-3 uppercase hover:bg-gray-700 hover:text-white transition duration-300 ease-in' onClick={ addToCart}>
                 Add to Cart
             </button>
         )
