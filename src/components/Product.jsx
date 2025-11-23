@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { add,remove } from '../redux/Slices/CartSlice';
 import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import "./Product.css"
 import { addToWishlist, removeFromWishlist } from '../redux/Slices/WishlistSlice'; 
 
@@ -11,6 +12,19 @@ const Product = ({post}) => {
     const cart = useSelector((state) => state.cart);
     const wishlist = useSelector((state) => state.wishlist);
     const dispatch = useDispatch();
+    const [theme, setTheme] = useState(() => {
+      return sessionStorage.getItem("theme") || "light";});
+
+    useEffect(() => {
+  function updateTheme() {
+    setTheme(sessionStorage.getItem("theme"));
+  }
+
+  window.addEventListener("theme-changed", updateTheme);
+
+  return () => window.removeEventListener("theme-changed", updateTheme);
+}, []);
+
 
     const addToCart = () =>{
         dispatch(add(post));
@@ -32,9 +46,9 @@ const Product = ({post}) => {
 
 
   return (
-    <div className='card flex flex-col items-center justify-between hover:scale-110 transition duration-300 ease-in gap-3 p-4 mt-10 ml-5 rounded-xl '>
+    <div className={` ${ theme === "dark"? "text-[white] border-white decoration-pink-50": ""} card ${theme} flex flex-col items-center justify-between hover:scale-110 transition duration-300 ease-in gap-3 p-4 mt-10 ml-5 rounded-xl`} >
       <div>
-        <p className='text-gray-700 font-semibold text-lg text-left truncate w-40 mt-1'>{post.title}</p>
+        <p className={` ${ theme === "dark"? "text-[white]": "text-gray-700"}  font-semibold text-lg text-left truncate w-40 mt-1`}>{post.title}</p>
       </div>
       <div>
         <p className='w-40 text-gray-400 font-normal text-[10px] text-left'>{post.description.split(" ").slice(0,10).join(" ")+ "..." }</p>
