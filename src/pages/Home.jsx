@@ -4,7 +4,7 @@ import Product from '../components/Product'
 import { FaSearchLocation } from 'react-icons/fa'
 import { RiDropdownList } from 'react-icons/ri'
 
-const Home = () => {
+const Home = ({theme}) => {
     const API_URL = "https://fakestoreapi.com/products";
     const [loading, setLoading] = useState(false);
     const [posts, setPosts] = useState([]);
@@ -46,8 +46,9 @@ const Home = () => {
     setFilteredPosts(filtered);
   }, [category, trimCategory]);
 
+
   return (
-    <div>
+    <div className={`${ theme === "dark" ? "bg-black" : "bg-white" }`}>
     <div className='flex items-center justify-center my-[2px] '>
     <div className='flex justify-start'>
     <select value={category} onChange={(e) => setCategory(e.target.value)} className='p-2 -translate-x-[33.5rem] rounded-md bg-gray-100 dark:bg-gray-700 dark:text-white outline-none cursor-pointer w-full'>
@@ -71,7 +72,7 @@ const Home = () => {
           <Spinner/>
         </div> : 
         posts.length > 0 ?
-        ( <div className='grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-6xl p-2 mx-auto space-y-10 space-x-5 min-h-[80vh]'>
+        ( <div className = {` ${ theme === "dark" ? "text-[white]": "text-gray-700"} grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-6xl p-2 mx-auto space-y-10 space-x-5 min-h-[80vh]`}>
             {filteredPosts.map( (post) => (
                 <Product key = {post.id} post={post}></Product>
             ))
