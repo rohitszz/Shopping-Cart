@@ -4,18 +4,21 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import WishList from "./pages/WishList";
-import RatingAndReviews from "./pages/RatingAndReviews";
+import { useState } from "react";
 
 const App = () => {
+  const [theme, setTheme] = useState(
+  sessionStorage.getItem("theme") || "light"
+);
+
   return (<div > 
         <div className="bg-black">
-          <Navbar/>
+          <Navbar theme={theme} setTheme={setTheme}/>
         </div>
         <Routes>
-          <Route path="/" element={<Home/>}/>
+          <Route path="/" element={<Home theme={theme}/>}/>
           <Route path="/cart" element={<Cart/>}/>
           <Route path="/wishlist" element={<WishList/>}/>
-          <Route path="/ratingandreviews" element={<RatingAndReviews/>}/>
         </Routes>
 
 
