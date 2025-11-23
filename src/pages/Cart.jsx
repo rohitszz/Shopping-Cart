@@ -3,17 +3,31 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import CartItem from '../components/CartItem';
 
+
 const Cart = () => {
 
   const cart  = useSelector((state) => state.cart);
   const [totalAmount, setTotalAmount] = useState(0);
+     const [theme, setTheme] = useState(() => {
+            return sessionStorage.getItem("theme") || "light";});
+      
+          useEffect(() => {
+        function updateTheme() {
+          setTheme(sessionStorage.getItem("theme"));
+        }
+      
+        window.addEventListener("theme-changed", updateTheme);
+      
+        return () => window.removeEventListener("theme-changed", updateTheme);
+      }, []);
 
   useEffect(() =>{
     setTotalAmount( cart.reduce( (acc,curr) => acc + Number(curr.price), 0));
   }, [cart]);
 
   return (
-    <div className=' flex flex-col max-w-6xl mx-auto mt-10 mb-10 '>
+    <div className={`${ theme === "dark" ? "bg-black" : ""} -translate-y-[2.5rem] h-full w-screen`}>
+       <div className= { ` ${ theme === "dark" ? "bg-black" : ""} translate-y-[2.5rem] flex flex-col max-w-6xl mx-auto mt-10 mb-10 ` }>
       {
         cart.length > 0 ? (<div className=' flex flex-col md:flex-row gap-10 justify-center '>
         <div className=''>
@@ -47,6 +61,8 @@ const Cart = () => {
         </div>) 
       }
     </div>
+    </div>
+   
   );
 };
 
