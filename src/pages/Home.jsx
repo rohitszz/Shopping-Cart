@@ -49,9 +49,9 @@ const Home = ({theme}) => {
 
   return (
     <div className={`${ theme === "dark" ? "bg-black" : "bg-white" }`}>
-    <div className='flex items-center justify-center my-[2px] '>
-    <div className='flex justify-start'>
-    <select value={category} onChange={(e) => setCategory(e.target.value)} className='p-2 -translate-x-[33.5rem] rounded-md bg-gray-100 dark:bg-gray-700 dark:text-white outline-none cursor-pointer w-full'>
+    <div className='flex items-center justify-evenly'>
+    <div className='flex items-center justify-start'>
+    <select value={category} onChange={(e) => setCategory(e.target.value)} className= {`p-2 ${ theme === "dark" ? "bg-[#2e2d2d] rounded-full  text-white" : " bg-[#e4e1e1] rounded-full"} rounded-md outline-none cursor-pointer w-full font-sans text-[14px]` }>
         <option value="All">All Products</option>
         <option value="men's clothing">men's clothing</option>
         <option value="women's clothing">women's clothing</option>
@@ -61,7 +61,7 @@ const Home = ({theme}) => {
     </div>
 
     <div className='flex items-center justify-center'>
-         <FaSearchLocation className='translate-x-[-1.2rem] text-[#171616] text-[1.2rem]'/>
+         <FaSearchLocation className={ ` ${ theme === "dark" ? "text-white" : "text-[#171616]"} translate-x-[-1.2rem] text-[1.2rem]` }/>
     <input onChange={(e) => setTrimCategory(e.target.value)} placeholder='select category' className='h-[2rem] rounded-full content-center px-[2rem] bg-[#3c3939] text-[white]'></input>
     
     </div>
